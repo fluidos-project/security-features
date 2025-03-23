@@ -1,0 +1,71 @@
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline author:t
+#+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
+#+options: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
+#+options: tasks:t tex:t timestamp:t title:t toc:nil todo:t |:t
+#+title: FLUIDOS Security features
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 29.4 (Org mode 9.6.15)
+#+cite_export:
+
+* Security features
+|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name            | Description                                                                                                                                                                                                                                        |
+|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]] | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum. |
+|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+* Security feature integration
+** Type of features
+We identified fours type of security features and their respective integration strategy:
+- Integrated by design ::
+  - What does it do?
+  - How is it advertised?
+  - How is it used?
+- Service ::
+  - What does it do?
+  - How is it advertised?
+  - How is it used?
+- Without Contoller ::
+  - What does it do?
+  - How is it advertised?
+  - How is it used?
+- With Controller ::
+  - What does it do?
+  - How is it advertised?
+  - How is it used?
+** How-To create a Testbed
+In order for every partner to test the implementation of each security feature a FLUIDOS testbed should be created. Here are pointers to the documentation for creating a testbed:
+1) [[https://github.com/fluidos-project/node/blob/main/docs/installation/installation.md][FLUIDOS Node testbed installation]]
+2) [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/main/utils/testbed][FLUIDOS Model-based Meta-Orchestrator testbed installation]]
+** Integrate a feature of type "Service"
+** TODO Integrate a feature of type "Without controller"
+As capabilities: =aditionalProperties= in the FLAVOR (eg: MAGI and TEE):
+  1) Every node has a FLAVOR CRD
+  2) For every service we should define the Intent template: [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/utils/examples/carbon-intent.yaml][example1]], [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/demo-Y2-stable/utils/testbed/intent-demo.yaml][example2]]
+  3) For every service we should provide the python code for validation by modifying in this [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/demo-Y2-stable/fluidos_model_orchestrator/common.py][file]]:
+     1) =KnownIntent= function: the function that advertise the Intent (just enumerating them with its own validation function)
+     2) =validate_*= function: the function that validate the Intent wrt the added parameters, eg: =validate_location=
+  4) Modifications on step 3) must be added in the code of the meta-orchestrator via a dedicated PR
+  5) On every node instance providing such security feature (eg: on your testbed) we need to patch the FLAVOR CRD with the relevant additional properties: [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/tests/examples/bandwidth-patch-file.yaml][example]]
+  6) This sort of [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/tests/test_intent_satisfaction.py][unit test]] should help to verify everything is ok regarding your Intent
+  7) Content of this [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/demo-Y2-stable/tests][folder]] may also be useful
+  8) The last step is to verify an end-to-end test using the meta-orchestrator, which could be launched locally with =Kops=
+
+** TODO Integrate a feature of type "With controller"
+As capabilities with own controller (via dedicated FLAVOR and Service category, when there is a controller and a CRD) (eg: Decepto and FLAD)
+  1) Slides [[https://docs.google.com/presentation/d/1C3aC8YEbpfUUjlVeytbBNp9-22bTe4mI/edit#slide=id.p1][here]]
+  2) FLUIDOS node > v0.1.0 supports FLAVORS
+  3) Service categories are needed when we need to deploy a CRD on the provider cluster
+  4) Service flavor: sw owner, deployed and managed by the provider cluster
+  5) Two categories (db and XXX) are supported by the FLUIDOS node, definition of a service category requires modification of FLUIDOS node
+  6) RBAC are quite open now, in order to support creation of many resources
+  7) Specific RBAC are required to create CRD
+  8) Other interesting references:
+     - https://github.com/fluidos-project/fluidos-ontology
+     - https://github.com/fluidos-project/REAR-data-models
+     - https://github.com/fluidos-project/REAR/blob/main/docs/messages/README.md#get-the-list-of-available-flavors
+     - https://github.com/fluidos-project/REAR-data-models/blob/master/models/schemas/flavor.schema.json
+
+* Demos
