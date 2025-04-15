@@ -16,7 +16,7 @@
 | [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]] | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum. |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-* Security feature integration
+* Security features integration
 ** Type of features
 We identified fours type of security features and their respective integration strategy:
 - Integrated by design ::
