@@ -10,6 +10,10 @@
 #+cite_export:
 
 * Security features
+This repository showcases the security features and capabilities developed as part of the WP5 contributions to the FLUIDOS project, presented in a unified view. For each security feature, we provide documentation, integration files, links to demos or testbeds and relevant research topics that validate each implementation or design choice.
+
+Moreover, it includes general instructions to support partners during the integration process.
+
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Name            | Description                                                                                                                                                                                                                                        |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
