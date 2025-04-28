@@ -20,7 +20,7 @@ Moreover, it includes general instructions to support partners during the integr
 | [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]] | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum. |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
-* Security Feature Types
+* Types of Security features
 ** Integrated by Design
 *** Short Description
 Native security features embedded directly into the FLUIDOS protocol and architecture.
@@ -53,6 +53,15 @@ Security features that require a controller and CRD creation, typically advertis
 They require the orchestrator to be aware of their existence during scheduling.
 At deployment time, these features involve the creation of Kubernetes Custom Resource Definitions (CRDs) on the target node, and rely on a dedicated controller capable of interpreting these CRDs and dynamically activating or configuring the feature to support the application needs.
 
+** Summary
+|----------------------+--------------------------------------+-----------------------------------------+-------------------------------------------------+------------------------------------------------------------------------------------------------------------|
+| Feature Type         | Advertisement                        | Deployment Action                       | Examples                                        | Integration Strategy                                                                                       |
+|----------------------+--------------------------------------+-----------------------------------------+-------------------------------------------------+------------------------------------------------------------------------------------------------------------|
+| Integrated by Design | None                                 | Native, always present                  | Privacy & Security Manager                      | Already part of FLUIDOS base components. No external integration needed.                                   |
+| Security Application | None                                 | Manual deployment, always-on            | BeaCon, System Call Verifier???, FLAD           | Must register as Service in REAR. Optional: reference in Meta-Orchestrator or Bastion if needs exposure??? |
+| Without Controller   | Extra fields in FLAVOR               | No CRD, no dynamic setup needed         | MAGI, Container Registry Validation???, TEE     | Extend FLAVOR (Bastion or Meta Orchestrator). Support scheduling via Intent.                               |
+| With Controller      | Extra fields and/or dedicated FLAVOR | CRD creation + controller action needed | Cyber Deception, Intent-based Border Protection | Extend FLAVOR (Bastion or Meta Orchestrator). Support scheduling and activation via Intent.                |
+|----------------------+--------------------------------------+-----------------------------------------+-------------------------------------------------+------------------------------------------------------------------------------------------------------------|
 
 * Security features integration
 ** TODO Integrate a feature of type "Without controller"
