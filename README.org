@@ -20,30 +20,41 @@ Moreover, it includes general instructions to support partners during the integr
 | [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]] | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum. |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
+* Security Feature Types
+** Integrated by Design
+*** Short Description
+Native security features embedded directly into the FLUIDOS protocol and architecture.
+
+*** Long Description
+*Integrated by Design* features are natively embedded into the FLUIDOS architecture. They ensure that security functionalities are inherently available as part of the platform without requiring separate installation, configuration, or orchestration steps.
+
+** Security Application
+*** Short Description
+Installed security features enhancing the node or infrastructure independently of the FLUIDOS core protocol.
+
+*** Long Description
+A *Security Application* is any additional security feature that can be installed by administrators or users independently from the FLUIDOS core protocol. It enhances security at the node or infrastructure level without requiring integration with the FLUIDOS orchestration or advertisement mechanisms. Security Applications typically address specific user needs, such as monitoring, cyber deception, or multi-tenancy support, and can be deployed based on the administrator's decision.
+
+** Without Controller
+*** Short Description
+Security features statically available on the node, advertised through extra fields only, without the need for a controller or CRD creation.
+
+*** Long Description
+*Without Controller* features are security capabilities that are statically present on the nodes and advertised exclusively through extra fields in the node's FLAVOR metadata.
+They are matched during application scheduling/orchestration without needing any dynamic setup at deployment time.
+No Custom Resource Definitions (CRDs) or dedicated controllers are required: the feature is already available on the node, and can be used immediately once the application is scheduled onto a compatible node.
+
+** With Controller
+*** Short Description
+Security features that require a controller and CRD creation, typically advertised with a dedicated FLAVOR and/or Service category.
+
+*** Long Description
+*With Controller* features are security capabilities that are advertised either by enriching node metadata through extra fields or, in more complex cases, by creating a dedicated FLAVOR and/or Service category.
+They require the orchestrator to be aware of their existence during scheduling.
+At deployment time, these features involve the creation of Kubernetes Custom Resource Definitions (CRDs) on the target node, and rely on a dedicated controller capable of interpreting these CRDs and dynamically activating or configuring the feature to support the application needs.
+
+
 * Security features integration
-** Type of features
-We identified fours type of security features and their respective integration strategy:
-- Integrated by design ::
-  - What does it do?
-  - How is it advertised?
-  - How is it used?
-- Service ::
-  - What does it do?
-  - How is it advertised?
-  - How is it used?
-- Without Contoller ::
-  - What does it do?
-  - How is it advertised?
-  - How is it used?
-- With Controller ::
-  - What does it do?
-  - How is it advertised?
-  - How is it used?
-** How-To create a Testbed
-In order for every partner to test the implementation of each security feature a FLUIDOS testbed should be created. Here are pointers to the documentation for creating a testbed:
-1) [[https://github.com/fluidos-project/node/blob/main/docs/installation/installation.md][FLUIDOS Node testbed installation]]
-2) [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/main/utils/testbed][FLUIDOS Model-based Meta-Orchestrator testbed installation]]
-** Integrate a feature of type "Service"
 ** TODO Integrate a feature of type "Without controller"
 As capabilities: =aditionalProperties= in the FLAVOR (eg: MAGI and TEE):
   1) Every node has a FLAVOR CRD
@@ -72,4 +83,10 @@ As capabilities with own controller (via dedicated FLAVOR and Service category, 
      - https://github.com/fluidos-project/REAR/blob/main/docs/messages/README.md#get-the-list-of-available-flavors
      - https://github.com/fluidos-project/REAR-data-models/blob/master/models/schemas/flavor.schema.json
 
+* How-Tos
+** How-To create a Testbed
+In order for every partner to test the implementation of each security feature a FLUIDOS testbed should be created. Here are pointers to the documentation for creating a testbed:
+1) [[https://github.com/fluidos-project/node/blob/main/docs/installation/installation.md][FLUIDOS Node testbed installation]]
+2) [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/main/utils/testbed][FLUIDOS Model-based Meta-Orchestrator testbed installation]]
+** Integrate a feature of type "Security application"
 * Demos
