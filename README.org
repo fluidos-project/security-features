@@ -65,12 +65,12 @@ This approach allows broader flexibility but requires modification of the FLUIDO
 ** Integration of Embedded Security Node Capability
 /Expose the capability via ==security-feature== field in node FLAVOR and validate through the Meta-Orchestrator./
 
-1) **Expose Capability in Node FLAVOR**
+1) *Expose Capability in Node FLAVOR*
    - Each node includes a =FLAVOR= CRD.
    - Add a =security-feature= attribute inside =additionalProperties=.
    - This attribute lists the security features currently pre-installed and available on the node.
 
-2) **Declare Intent to Use the Capability**
+2) *Declare Intent to Use the Capability*
    - If using the Meta-Orchestrator:
      - Add the desired =security-feature= via an annotation in the workload manifest.
      - Example:
@@ -87,7 +87,7 @@ This approach allows broader flexibility but requires modification of the FLUIDO
    - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/utils/examples/carbon-intent.yaml][Intent Example 1]]
    - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/demo-Y2-stable/utils/testbed/intent-demo.yaml][Intent Example 2]]
 
-3) **Extend Meta-Orchestrator Validation**
+3) *Extend Meta-Orchestrator Validation*
    - Edit =fluidos_model_orchestrator/common.py=:
      - Register the new intent in the =KnownIntent= function.
      - Implement =validate_<feature>()= to check that:
@@ -95,38 +95,38 @@ This approach allows broader flexibility but requires modification of the FLUIDO
        - all required parameters are valid.
    - Submit the change as a pull request to the Meta-Orchestrator repository.
 
-4) **Patch FLAVOR on Nodes**
+4) *Patch FLAVOR on Nodes*
    - On each node offering the capability, patch its =FLAVOR= to include the correct =security-feature= value(s).
    - Example patch file:
      - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/tests/examples/bandwidth-patch-file.yaml][FLAVOR Patch]]
 
-5) **Test the Intent and Validation**
+5) *Test the Intent and Validation*
    - Use existing unit tests to verify Intent matching:
      - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/tests/test_intent_satisfaction.py][Intent Satisfaction Test]]
    - Other examples and mockups can be found here:
      - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/demo-Y2-stable/tests][Test Folder]]
 
-6) **Run End-to-End Validation**
+6) *Run End-to-End Validation*
    - Launch an end-to-end test using the Meta-Orchestrator with =Kops=, verifying that a workload requesting the security feature is correctly scheduled.
 
 
 ** Integration of Custom Security Node Capability
 /High-level steps to integrate a new security feature deployable via FLAVOR service category./
 
-1) **Define the Service Category**
+1) *Define the Service Category*
    - Name the category and define needed parameters and defaults.
 
-2) **Update the FLUIDOS Node**
+2) *Update the FLUIDOS Node*
    - Add the category to the node codebase.
    - Handle parameter mapping and deployment logic.
 
-3) **Ensure Permissions**
+3) *Ensure Permissions*
    - Check RBAC allows resource creation and management.
 
-4) **Test and Document**
+4) *Test and Document*
    - Validate functionality and document service usage.
 
-**References**
+*References*
 - Node Integration Example: https://github.com/fluidos-project/node/pull/114
 - Ontology: https://github.com/fluidos-project/fluidos-ontology
 - REAR Models: https://github.com/fluidos-project/REAR-data-models
