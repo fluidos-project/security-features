@@ -14,11 +14,15 @@ This repository showcases the security features and capabilities developed as pa
 
 Moreover, it includes general instructions to support partners during the integration process.
 
-|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Name            | Description                                                                                                                                                                                                                                        |
-|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]] | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum. |
-|-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|--------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Name                           | Description                                                                                                                                                                                                                                                                                                                                                                       |
+|--------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [[https://github.com/fluidos-project/cyber-deception][Cyber Deception]]                | The Cyber Deception feature, part of the FLUIDOS Cyber Security services designed to improve the overall security of the ecosystem, is willing to provide Cloud Native Cyber Deception as a Service (CDaaS) integrated into the FLUIDOS continuum.                                                                                                                                |
+|--------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Intent-based border protection | The intent-based border protection is designed to secure dynamic workloads within the shared and heterogeneous infrastructure of the FLUIDOS continuum. Thanks to high-level user-defined intents, the solution eases the configuration of secure communication boundaries as soon as new resources are acquired, aligning consumer intents with provider network authorizations. |
+|--------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [[https://github.com/fluidos-project/idm-fluidos-aries-framework-go/][Privacy & Security Manager]]     |                                                                                                                                                                                                                                                                                                                                                                                   |
+|--------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 * Types of Security features
 ** Integrated by Design
@@ -31,7 +35,7 @@ Moreover, it includes general instructions to support partners during the integr
 /Installed security features enhancing the node or infrastructure independently of the FLUIDOS core protocol./
 
 
-A *Security Application* is any additional security feature that can be installed by administrators or users independently from the FLUIDOS core protocol. It enhances security at the node or infrastructure level without requiring integration with the FLUIDOS orchestration or advertisement mechanisms. Security Applications typically address specific user needs, such as monitoring, cyber deception, or multi-tenancy support, and can be deployed based on the administrator's decision.
+A *Security Application* is any additional security feature that can be installed by administrators or users independently from the FLUIDOS core protocol. It enhances security at the node or infrastructure level without requiring integration with the FLUIDOS orchestration or advertisement mechanisms. Security Applications typically address specific user needs, such as monitoring, local cyber deception, or multi-tenancy support, and can be deployed based on the administrator's decision.
 
 ** Embedded Security Node Capability
 /Security features already installed on the node, advertised through extra fields in the node's FLAVOR. Optionally configured per requester./
@@ -50,18 +54,16 @@ This approach allows broader flexibility but requires modification of the FLUIDO
 
 
 ** Summary
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+---------------------------------------------------------------------------------------------------------|
-| Feature Type                      | Advertisement                        | Deployment Action                              | Examples                                                   | Integration Strategy                                                                                    |
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+---------------------------------------------------------------------------------------------------------|
-| Integrated by Design              | None                                 | Native, always present                         | Privacy & Security Manager                                 | Already part of FLUIDOS base components. No external integration needed                                 |
-| Security Application              | None                                 | Manual deployment, always-on                   | BeaCon, FLAD                                               | Must register as Service in REAR. Optional: reference in Meta-Orchestrator or Bastion if needs exposure |
-| Embedded Security Node Capability | Extra fields in FLAVOR               | Feature already installed, optional activation | MAGI, TEE, Cyber Deception, Intent-based Border Protection | Extend FLAVOR (Bastion or Meta Orchestrator). Support scheduling and configuration via Intent           |
-| Custom Security Node Capability   | Service category or ServiceBlueprint | Dynamic deployment and activation at runtime   | Same as above, if not present on provider node             | Define Service category in FLUIDOS node. Implement parameters, defaults, and runtime integration logic  |
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+---------------------------------------------------------------------------------------------------------|
+|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
+| Feature Type                      | Advertisement                        | Deployment Action                              | Examples                                                   | Integration Strategy                                                                                   |
+|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
+| Integrated by Design              | None                                 | Native, always present                         | Privacy & Security Manager                                 | Already part of FLUIDOS base components. No external integration needed                                |
+| Security Application              | None                                 | Manual deployment, always-on                   | BeaCon, FLAD                                               | Part of the FLUIDOS node. No external integration needed                                               |
+| Embedded Security Node Capability | Extra fields in FLAVOR               | Feature already installed, optional activation | MAGI, TEE, Cyber Deception, Intent-based Border Protection | Extend FLAVOR (Bastion or Meta Orchestrator). Support scheduling and configuration via Intent          |
+| Custom Security Node Capability   | Service category or ServiceBlueprint | Dynamic deployment and activation at runtime   | Same as above, if not present on provider node             | Define Service category in FLUIDOS node. Implement parameters, defaults, and runtime integration logic |
+|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
 
 * Security features integration
-** TODO Integration of Security Application
-
 ** Integration of Embedded Security Node Capability
 /Expose the capability via/ =security-feature= /field in node FLAVOR and validate through the Meta-Orchestrator./
 
@@ -76,12 +78,13 @@ This approach allows broader flexibility but requires modification of the FLUIDO
      - Example:
        #+begin_src yaml
        annotations:
-         fluidos-intent-cyber-deception: "true"
+         fluidos-intent-<feature-name>: "true"
        #+end_src
      - Optional configuration parameters can be passed and validated through the related validation function.
 
    - If using the [[https://ants-gitlab.inf.um.es/bastion][Bastion Orchestrator]]:
-     - Express the requirement by defining the appropriate Medium-Level Security Policy Language (MSPL) statement.
+     - Express the requirement by defining the appropriate policy via Medium-Level Security Policy Language (MSPL) statement.
+     - More information can be found [[https://www.sciencedirect.com/science/article/pii/S1389128625003196][here]]
 
    Examples:
    - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/demo-Y2-stable/utils/testbed/intent-demo.yaml][Intent Example]]
@@ -90,12 +93,12 @@ This approach allows broader flexibility but requires modification of the FLUIDO
    - Visit and fork the Meta-Orchestrator [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator][repository]]
    - Edit =fluidos_model_orchestrator/common.py=:
      - Register the new intent in the =KnownIntent= function.
-     - Implement =validate_<feature>()= to check that:
+     - Implement =validate_<feature-name>()= to check that:
        - the requested =security-feature= is listed in the node’s FLAVOR.
        - all required parameters are valid.
    - Submit the change as a pull request to the Meta-Orchestrator repository.
 
-5) *Patch FLAVOR on Nodes*
+4) *Patch FLAVOR on Nodes*
    - On each node offering the capability, patch its =FLAVOR= to include the correct =security-feature= value(s).
    - Example patch file:
      #+begin_src yaml
@@ -105,16 +108,16 @@ spec:
       properties:
         additionalProperties:
           security_features:
-            cyber-deception: true
+            <feature-name>: true
      #+end_src
 
-6) *Test the Intent and Validation*
+5) *Test the Intent and Validation*
    - Use existing unit tests to verify Intent matching:
      - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/blob/main/tests/test_intent_satisfaction.py][Intent Satisfaction Test]]
    - Other examples and mockups can be found here:
      - [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/demo-Y2-stable/tests][Test Folder]]
 
-7) *Run End-to-End Validation*
+6) *Run End-to-End Validation*
    - Launch an end-to-end test using the Meta-Orchestrator with =Kops=, verifying that a workload requesting the security feature is correctly scheduled.
 
 
@@ -141,9 +144,8 @@ spec:
 - FLAVOR Schema: https://github.com/fluidos-project/REAR-data-models/blob/master/models/schemas/flavor.schema.json
 
 
-* How-Tos
+* How-To
 ** How-To create a Testbed
 In order for every partner to test the implementation of each security feature a FLUIDOS testbed should be created. Here are pointers to the documentation for creating a testbed:
 1) [[https://github.com/fluidos-project/node/blob/main/docs/installation/installation.md][FLUIDOS Node testbed installation]]
 2) [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator/tree/main/utils/testbed][FLUIDOS Model-based Meta-Orchestrator testbed installation]]
-* Demos
