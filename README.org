@@ -63,7 +63,7 @@ This approach allows broader flexibility but requires modification of the FLUIDO
 ** TODO Integration of Security Application
 
 ** Integration of Embedded Security Node Capability
-/Expose the capability via =security-feature= field in node FLAVOR and validate through the Meta-Orchestrator./
+/Expose the capability via/ =security-feature= /field in node FLAVOR and validate through the Meta-Orchestrator./
 
 1) *Expose Capability in Node FLAVOR*
    - Each node includes a =FLAVOR= CRD.
