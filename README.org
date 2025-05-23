@@ -37,31 +37,29 @@ Moreover, it includes general instructions to support partners during the integr
 
 A *Security Application* is any additional security feature that can be installed by administrators or users independently from the FLUIDOS core protocol. It enhances security at the node or infrastructure level without requiring integration with the FLUIDOS orchestration or advertisement mechanisms. Security Applications typically address specific user needs, such as monitoring, local cyber deception, or multi-tenancy support, and can be deployed based on the administrator's decision.
 
-** Embedded Security Node Capability
-/Security features already installed on the node, advertised through extra fields in the node's FLAVOR. Optionally configured per requester./
+** Security Node Capability
+/Security features provided by the node, either pre-installed or deployable on demand, enabling adaptable security integration within FLUIDOS./
 
-*Embedded Security Node Capability* features are security capabilities that are already installed on the FLUIDOS node and advertised by enriching the node's FLAVOR metadata with additional fields.
-These features may be configured depending on the requesting application's needs, but no additional deployment is required.
-This model is simple to use and leverages existing node functionality without requiring modification of the FLUIDOS node code.
+*** Embedded Security
+Security capabilities already installed on the FLUIDOS node and advertised by enriching the node's FLAVOR metadata with additional fields.
+These features may be optionally configured depending on the requesting application's needs, with no additional and on-demand deployment required.
+This model is simple to use and leverages existing node functionality without modifying the FLUIDOS node code.
 
-** Custom Security Node Capability
-/Security features not pre-installed on the node, expressed via a specific FLUIDOS Service category and dynamically deployed when needed./
-
-*Custom Security Node Capability* features are not pre-installed on the node but can be dynamically deployed and activated by FLUIDOS through a specific Service category or ServiceBlueprint.
-When such a capability is requested, the node will provision it at runtime, enabling generic and reusable security service integration.
-To support this, the FLUIDOS node must be extended to recognize the new service category, define its parameters, default values, and implement the logic to deploy and configure it.
-This approach allows broader flexibility but requires modification of the FLUIDOS node to support the new capability.
+*** Custom Security
+Security capabilities not pre-installed on the node but dynamically deployable and activatable by FLUIDOS through a specific Service category or ServiceBlueprint.
+When such a capability is requested, the node provisions it at runtime, enabling generic and reusable security service integration.
+This model offers greater flexibility but requires extending the FLUIDOS node to recognize the new service category, define its parameters and default values, and implement the corresponding deployment logic.
 
 
 ** Summary
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
-| Feature Type                      | Advertisement                        | Deployment Action                              | Examples                                                   | Integration Strategy                                                                                   |
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
-| Integrated by Design              | None                                 | Native, always present                         | Privacy & Security Manager                                 | Already part of FLUIDOS base components. No external integration needed                                |
-| Security Application              | None                                 | Manual deployment, always-on                   | BeaCon, FLAD                                               | Part of the FLUIDOS node. No external integration needed                                               |
-| Embedded Security Node Capability | Extra fields in FLAVOR               | Feature already installed, optional activation | MAGI, TEE, Cyber Deception, Intent-based Border Protection | Extend FLAVOR (Bastion or Meta Orchestrator). Support scheduling and configuration via Intent          |
-| Custom Security Node Capability   | Service category or ServiceBlueprint | Dynamic deployment and activation at runtime   | Same as above, if not present on provider node             | Define Service category in FLUIDOS node. Implement parameters, defaults, and runtime integration logic |
-|-----------------------------------+--------------------------------------+------------------------------------------------+------------------------------------------------------------+--------------------------------------------------------------------------------------------------------|
+
+|--------------------------+-----------------------------------+----------------------------------------------+------------------------------------------------------------+-------------------------------------------------------------------------------------------------------|
+| Feature Type             | Advertisement                     | Deployment Action                            | Examples                                                   | Integration Strategy                                                                                  |
+|--------------------------+-----------------------------------+----------------------------------------------+------------------------------------------------------------+-------------------------------------------------------------------------------------------------------|
+| Integrated by Design     | None                              | Native, always present                       | Privacy & Security Manager                                 | Already part of FLUIDOS base components. No external integration needed                               |
+| Security Application     | None                              | Manual deployment, always-on                 | BeaCon, FLAD                                               | Part of the FLUIDOS node. No external integration needed                                              |
+| Security Node Capability | FLAVOR fields or Service category | Pre-installed (Embedded) or dynamic (Custom) | MAGI, TEE, Cyber Deception, Intent-based Border Protection | Embedded: enrich FLAVOR metadata; Custom: define Service category, implement runtime deployment logic |
+|--------------------------+-----------------------------------+----------------------------------------------+------------------------------------------------------------+-------------------------------------------------------------------------------------------------------|
 
 * Security features integration
 ** Integration of Embedded Security Node Capability
