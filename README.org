@@ -103,7 +103,7 @@ This model offers greater flexibility but requires extending the FLUIDOS node to
 
 3) *Extend Meta-Orchestrator Validation*
    - Visit and fork the Meta-Orchestrator [[https://github.com/fluidos-project/fluidos-modelbased-metaorchestrator][repository]]
-   - Edit =fluidos_model_orchestrator/common.py=:
+   - Edit =fluidos_model_orchestrator/common/intent.py=:
      - Register the new intent in the =KnownIntent= function.
      - Implement =validate_<feature-name>()= to check that:
        - the requested =security-feature= is listed in the node’s FLAVOR.
